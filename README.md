@@ -15,4 +15,4 @@ c = SatClause()
 solver.append((a, b))
 solver.append((-b, c))
 solver.solve()
-print solver[0]</code></pre>
+print solver[a], solver[b], solver[c]</code></pre>

@@ -41,16 +41,13 @@ class SatSolver(object):
         if dump: print open(self.outputfilename, 'r').read()
 
         outputfile = open(self.outputfilename, 'r')
-        line = outputfile.readline() # skip 1st line
-        line = outputfile.readline()
-        while line:
-            rslt = tuple(line.split())
-            int_rslt = []
-            for r in rslt[:-1]:
-                int_rslt.append(int(r))
-            self.result.append(tuple(int_rslt))
-            line = outputfile.readline()
-    def __getitem__(self, index):
+        outputfile.readline() # skip 1st line
+        rslt = outputfile.readline().split()
+        for r in rslt[:-1]:
+            self.result.append(int(r))
+    def __getitem__(self, clause):
+        if not isinstance(clause, SatClauseBase): raise Exception, 'Type Error'
+        index = int(self.tonum(clause.name)) - 1
         return self.result[index]
         
 class SatClauseBase(object):
@@ -74,4 +71,4 @@ if __name__ == '__main__':
     solver.append((a, b))
     solver.append((-b, c))
     solver.solve(dump=False)
-    print solver[0]
+    print solver[a], solver[b], solver[c]
