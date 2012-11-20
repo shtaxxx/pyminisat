@@ -14,5 +14,5 @@ b = SatClause()
 c = SatClause()
 solver.append((a, b))
 solver.append((-b, c))
-solver.solve(dump=False)
+solver.solve()
 print solver[0]</code></pre>

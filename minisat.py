@@ -12,7 +12,7 @@ class SatSolver(object):
         self.unique_varname_cnt = 1
         self.result = []
     def append(self, var):
-        if not isinstance(var, tuple): raise Exception, "'var' should be tuple."
+        if not isinstance(var, tuple): raise Exception, "'clause' should be tuple."
         for v in var:
             if not isinstance(v, SatClauseBase): raise Exception, "Illegal variable type."
             if v.name not in self.unique_varnames:
@@ -46,7 +46,7 @@ class SatSolver(object):
         while line:
             rslt = tuple(line.split())
             int_rslt = []
-            for r in rslt:
+            for r in rslt[:-1]:
                 int_rslt.append(int(r))
             self.result.append(tuple(int_rslt))
             line = outputfile.readline()
