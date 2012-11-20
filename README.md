@@ -9,9 +9,9 @@ How to use
 
 <pre><code>from minsat import *
 solver = SatSolver()
-a = SatVar('a')
-b = SatVar('b')
-c = SatVar('c')
+a = SatClause()
+b = SatClause()
+c = SatClause()
 solver.append((a, b))
 solver.append((-b, c))
 solver.solve(dump=False)

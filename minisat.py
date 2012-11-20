@@ -14,7 +14,7 @@ class SatSolver(object):
     def append(self, var):
         if not isinstance(var, tuple): raise Exception, "'var' should be tuple."
         for v in var:
-            if not isinstance(v, SatVarBase): raise Exception, "Illegal variable type."
+            if not isinstance(v, SatClauseBase): raise Exception, "Illegal variable type."
             if v.name not in self.unique_varnames:
                 self.unique_varnames[v.name] = self.unique_varname_cnt
                 self.unique_varname_cnt += 1
@@ -29,8 +29,8 @@ class SatSolver(object):
         for clause in self.clauses:
             write_var = ''
             for e in clause:
-                if isinstance(e, SatVar): write_var += self.tonum(e.name) + ' ' 
-                if isinstance(e, SatVarInv): write_var += '-' + self.tonum(e.name) + ' '
+                if isinstance(e, SatClause): write_var += self.tonum(e.name) + ' ' 
+                if isinstance(e, SatClauseInv): write_var += '-' + self.tonum(e.name) + ' '
             inputfile.write(write_var + '0\n')
         inputfile.close()
         if dump: print open(self.inputfilename, 'r').read()
@@ -53,22 +53,24 @@ class SatSolver(object):
     def __getitem__(self, index):
         return self.result[index]
         
-class SatVarBase(object):
-    def __init__(self, name):
-        if not isinstance(name, str): raise Exception, "'name' should be str."
-        self.name = name
-class SatVar(SatVarBase):
+class SatClauseBase(object):
+    def __init__(self, name=None):
+        self.name = id(self)
+        if name is not None:
+            self.name = name
+
+class SatClause(SatClauseBase):
     def __neg__(self):
-        return SatVarInv(self.name)
-class SatVarInv(SatVarBase):
+        return SatClauseInv(self.name)
+class SatClauseInv(SatClauseBase):
     def __neg__(self):
-        return SatVar(self.name)
+        return SatClause(self.name)
 
 if __name__ == '__main__':
     solver = SatSolver()
-    a = SatVar('a')
-    b = SatVar('b')
-    c = SatVar('c')
+    a = SatClause()
+    b = SatClause()
+    c = SatClause()
     solver.append((a, b))
     solver.append((-b, c))
     solver.solve(dump=False)
