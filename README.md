@@ -7,8 +7,7 @@ How to use
 1. Please install [MiniSat](http://minisat.se/Main.html) on your environment.
 2. Create an instance of SatSolver().
 
-<pre><code>
-from minsat import *
+<pre><code>from minsat import *
 solver = SatSolver()
 a = SatVar('a')
 b = SatVar('b')
@@ -16,5 +15,4 @@ c = SatVar('c')
 solver.append((a, b))
 solver.append((-b, c))
 solver.solve(dump=False)
-print solver[0]
-</code></pre>
+print solver[0]</code></pre>
