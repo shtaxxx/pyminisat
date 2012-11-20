@@ -8,13 +8,13 @@ How to use
 2. Create an instance of SatSolver().
 
 <pre><code>
-    from minsat import *
-    solver = SatSolver()
-    a = SatVar('a')
-    b = SatVar('b')
-    c = SatVar('c')
-    solver.append((a, b))
-    solver.append((-b, c))
-    solver.solve(dump=False)
-    print solver[0]
+from minsat import *
+solver = SatSolver()
+a = SatVar('a')
+b = SatVar('b')
+c = SatVar('c')
+solver.append((a, b))
+solver.append((-b, c))
+solver.solve(dump=False)
+print solver[0]
 </code></pre>
