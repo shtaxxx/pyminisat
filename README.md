@@ -7,7 +7,7 @@ How to use
 1. Please install [MiniSat](http://minisat.se/Main.html) on your environment.
 2. Create an instance of SatSolver().
 
-<pre><code>from minsat import *
+<pre><code>from minisat import *
 solver = SatSolver()
 a = SatClause()
 b = SatClause()
