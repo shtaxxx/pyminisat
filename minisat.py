@@ -21,7 +21,7 @@ class SatSolver(object):
         self.clauses.append(var)
     def tonum(self, name):
         return str(self.unique_varnames[name])
-    def solve(self, all=False, dump=False):
+    def solve(self, dump=False):
         inputfile = open(self.inputfilename, 'w')
         num_variables = len(self.unique_varnames)
         num_clauses = len(self.clauses)
@@ -45,11 +45,23 @@ class SatSolver(object):
         rslt = outputfile.readline().split()
         for r in rslt[:-1]:
             self.result.append(int(r))
+        if len(rslt) == 0: return False
+        return True
     def __getitem__(self, clause):
         if not isinstance(clause, SatVarBase): raise Exception, 'Type Error'
         index = int(self.tonum(clause.name)) - 1
-        return self.result[index]
-        
+        if self.result[index] < 0: return False
+        return True
+    def view(self):
+        if len(self.result) == 0:
+            print("UNSATISFIABLE")
+            return
+        print("SATISFIABLE")
+        p = ''
+        for r in self.result:
+            p += str(r >= 0) + ', '
+        print(p[:-2])
+
 class SatVarBase(object):
     def __init__(self, name=None):
         self.name = id(self)
@@ -67,8 +79,11 @@ if __name__ == '__main__':
     solver = SatSolver()
     a = SatVar()
     b = SatVar()
-    c = SatVar()
+    solver.append((-a, -b))
+    solver.append((a, -b))
+    solver.append((-a, b))
     solver.append((a, b))
-    solver.append((-b, c))
-    solver.solve(dump=False)
-    print solver[a], solver[b], solver[c]
+    satisfy = solver.solve(dump=False)
+    solver.view()
+    if satisfy:
+        print(solver[a], solver[b])
